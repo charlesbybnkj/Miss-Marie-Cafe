@@ -2,1143 +2,630 @@ import streamlit as st
 
 # ============================================================
 # MISS MARIE CAFE
-# Clean Streamlit Website
 # ============================================================
 
 st.set_page_config(
     page_title="Miss Marie Café | Rosanna",
     page_icon="☕",
     layout="wide",
-    initial_sidebar_state="collapsed",
+    initial_sidebar_state="collapsed"
 )
 
 # ============================================================
-# CUSTOM CSS
+# COLORS / STYLE
 # ============================================================
 
-st.markdown(
-    """
-    <style>
-
-    @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap');
-
-    * {
-        box-sizing: border-box;
-    }
-
-    html {
-        scroll-behavior: smooth;
-    }
-
+st.markdown("""
+<style>
     .stApp {
-        background: #faf7f2;
-        color: #29241f;
-        font-family: 'DM Sans', sans-serif;
-    }
-
-    [data-testid="stHeader"] {
-        background: transparent;
-    }
-
-    #MainMenu {
-        visibility: hidden;
-    }
-
-    footer {
-        visibility: hidden;
+        background-color: #faf7f2;
     }
 
     .block-container {
-        max-width: 1350px;
-        padding-top: 0 !important;
-        padding-bottom: 0 !important;
+        max-width: 1200px;
+        padding-top: 2rem;
+        padding-bottom: 3rem;
     }
 
-    /* -----------------------------------------
-       NAVBAR
-    ----------------------------------------- */
-
-    .navbar {
-        width: 100%;
-        padding: 22px 5%;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        border-bottom: 1px solid #e7ded3;
-        background: #faf7f2;
+    h1, h2, h3 {
+        color: #2b2520 !important;
+        font-family: Georgia, serif;
     }
 
-    .brand {
-        font-family: 'Playfair Display', serif;
-        font-size: 30px;
-        font-weight: 700;
-        color: #28231e;
+    p {
+        color: #625a52;
     }
 
-    .brand span {
-        color: #a26f4d;
-    }
-
-    .nav-links {
-        display: flex;
-        gap: 28px;
-    }
-
-    .nav-links a {
-        text-decoration: none;
-        color: #514a43;
-        font-size: 14px;
-        font-weight: 600;
-    }
-
-    .nav-links a:hover {
-        color: #a26f4d;
-    }
-
-    /* -----------------------------------------
-       HERO
-    ----------------------------------------- */
-
-    .hero {
-        min-height: 680px;
-        margin-bottom: 90px;
-        border-radius: 0 0 30px 30px;
-
-        background:
-            linear-gradient(
-                90deg,
-                rgba(30,24,20,0.78) 0%,
-                rgba(30,24,20,0.55) 45%,
-                rgba(30,24,20,0.10) 100%
-            ),
-            url("https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=2200&q=90");
-
-        background-size: cover;
-        background-position: center;
-
-        display: flex;
-        align-items: center;
-        padding: 70px 8%;
-    }
-
-    .hero-content {
-        max-width: 650px;
-    }
-
-    .eyebrow {
-        color: #e6c5a9;
-        font-size: 13px;
-        font-weight: 700;
-        text-transform: uppercase;
-        letter-spacing: 3px;
-        margin-bottom: 20px;
-    }
-
-    .hero-title {
-        font-family: 'Playfair Display', serif;
-        font-size: clamp(55px, 8vw, 100px);
-        line-height: 0.94;
-        color: white;
-        margin: 0 0 25px 0;
-        font-weight: 600;
-    }
-
-    .hero-description {
-        color: rgba(255,255,255,0.93);
-        font-size: 18px;
+    .hero-text {
+        font-size: 1.15rem;
         line-height: 1.7;
-        max-width: 570px;
-        margin-bottom: 32px;
+        color: #625a52;
     }
 
-    .hero-buttons {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 12px;
-    }
-
-    .hero-button {
-        display: inline-block;
-        padding: 15px 25px;
-        border-radius: 100px;
-        text-decoration: none;
-        font-size: 14px;
+    .small-label {
+        color: #a16f4d;
         font-weight: 700;
-    }
-
-    .hero-button-primary {
-        background: white;
-        color: #29241f;
-    }
-
-    .hero-button-secondary {
-        color: white;
-        border: 1px solid rgba(255,255,255,0.65);
-        background: rgba(255,255,255,0.10);
-    }
-
-    /* -----------------------------------------
-       SECTIONS
-    ----------------------------------------- */
-
-    .section {
-        padding: 0 5% 90px 5%;
-    }
-
-    .section-eyebrow {
-        color: #a26f4d;
-        text-transform: uppercase;
         letter-spacing: 3px;
-        font-size: 13px;
+        font-size: 0.8rem;
+        text-transform: uppercase;
+    }
+
+    .price {
         font-weight: 700;
-        margin-bottom: 12px;
-    }
-
-    .section-title {
-        font-family: 'Playfair Display', serif;
-        font-size: clamp(40px, 5vw, 64px);
-        line-height: 1.05;
-        color: #29241f;
-        margin: 0 0 22px 0;
-    }
-
-    .section-text {
-        max-width: 700px;
-        color: #6c625a;
-        font-size: 17px;
-        line-height: 1.8;
-    }
-
-    /* -----------------------------------------
-       FEATURE CARDS
-    ----------------------------------------- */
-
-    .card {
-        background: white;
-        border: 1px solid #e9e0d6;
-        border-radius: 22px;
-        overflow: hidden;
-        height: 100%;
-        box-shadow: 0 12px 35px rgba(60,45,30,0.06);
-    }
-
-    .card-image {
-        width: 100%;
-        height: 270px;
-        object-fit: cover;
-        display: block;
-    }
-
-    .card-content {
-        padding: 25px;
-    }
-
-    .card-title {
-        font-family: 'Playfair Display', serif;
-        font-size: 29px;
-        color: #29241f;
-        margin-bottom: 10px;
-    }
-
-    .card-text {
-        color: #70665d;
-        font-size: 15px;
-        line-height: 1.7;
-    }
-
-    /* -----------------------------------------
-       MENU
-    ----------------------------------------- */
-
-    .menu-box {
-        background: #eee4d8;
-        border-radius: 28px;
-        padding: 45px;
-        margin: 0 5% 90px 5%;
-    }
-
-    .menu-heading {
-        font-family: 'Playfair Display', serif;
-        font-size: 34px;
-        color: #29241f;
-        margin: 35px 0 10px 0;
-    }
-
-    .menu-heading:first-child {
-        margin-top: 0;
-    }
-
-    .menu-item {
-        padding: 17px 0;
-        border-bottom: 1px solid #d8cabc;
-        display: flex;
-        justify-content: space-between;
-        gap: 25px;
-    }
-
-    .menu-item:last-child {
-        border-bottom: none;
-    }
-
-    .menu-name {
-        font-weight: 700;
-        font-size: 16px;
-        color: #302a25;
+        color: #8d6042;
     }
 
     .menu-description {
-        margin-top: 5px;
-        color: #746a61;
-        font-size: 14px;
-        line-height: 1.5;
-        max-width: 700px;
+        color: #716860;
+        font-size: 0.9rem;
     }
 
-    .menu-price {
-        white-space: nowrap;
-        font-weight: 700;
-        color: #302a25;
+    .info-box {
+        background-color: white;
+        padding: 1.5rem;
+        border-radius: 15px;
+        border: 1px solid #e6ddd3;
+        min-height: 190px;
     }
 
-    /* -----------------------------------------
-       DARK ABOUT
-    ----------------------------------------- */
-
-    .dark-section {
-        background: #2d2824;
-        border-radius: 30px;
-        padding: 65px;
-        margin: 0 5% 90px 5%;
-    }
-
-    .dark-eyebrow {
-        color: #d8a982;
-        text-transform: uppercase;
-        letter-spacing: 3px;
-        font-size: 13px;
-        font-weight: 700;
-    }
-
-    .dark-title {
-        font-family: 'Playfair Display', serif;
-        color: white;
-        font-size: clamp(42px, 5vw, 68px);
-        line-height: 1;
-        margin: 15px 0 25px 0;
-    }
-
-    .dark-text {
-        color: #ded5ce;
-        max-width: 700px;
-        font-size: 17px;
-        line-height: 1.8;
-    }
-
-    /* -----------------------------------------
-       INFO CARDS
-    ----------------------------------------- */
-
-    .info-card {
-        background: white;
-        border: 1px solid #e9e0d6;
-        border-radius: 22px;
-        padding: 30px;
-        min-height: 240px;
-    }
-
-    .info-icon {
-        font-size: 28px;
-        margin-bottom: 15px;
-    }
-
-    .info-title {
-        font-family: 'Playfair Display', serif;
-        font-size: 27px;
-        color: #29241f;
-        margin-bottom: 12px;
-    }
-
-    .info-text {
-        color: #70665d;
-        line-height: 1.7;
-        font-size: 15px;
-    }
-
-    .info-link {
-        color: #9b6a48;
-        font-weight: 700;
-        text-decoration: none;
-    }
-
-    /* -----------------------------------------
-       CONTACT
-    ----------------------------------------- */
-
-    .contact-section {
-        background: #e4d3c1;
-        border-radius: 30px;
-        padding: 55px;
-        margin: 0 5% 90px 5%;
-    }
-
-    .contact-title {
-        font-family: 'Playfair Display', serif;
-        font-size: clamp(42px, 5vw, 65px);
-        line-height: 1;
-        color: #29241f;
-        margin-bottom: 18px;
-    }
-
-    .contact-text {
-        color: #655b52;
-        font-size: 17px;
-        line-height: 1.7;
-        max-width: 650px;
-    }
-
-    /* -----------------------------------------
-       FOOTER
-    ----------------------------------------- */
-
-    .footer {
-        background: #29241f;
-        margin-top: 30px;
-        padding: 60px 7%;
+    .dark-box {
+        background-color: #2c2723;
+        padding: 3rem;
+        border-radius: 20px;
         color: white;
     }
 
-    .footer-brand {
-        font-family: 'Playfair Display', serif;
-        font-size: 34px;
-        margin-bottom: 12px;
+    .dark-box h2 {
+        color: white !important;
     }
 
-    .footer-text {
-        color: #cfc5bd;
-        line-height: 1.7;
+    .dark-box p {
+        color: #ddd4cc;
     }
-
-    /* -----------------------------------------
-       STREAMLIT BUTTONS
-    ----------------------------------------- */
 
     div.stButton > button {
-        border-radius: 100px !important;
-        background: #302a25 !important;
-        color: white !important;
-        border: none !important;
-        padding: 12px 25px !important;
-        font-weight: 700 !important;
+        border-radius: 30px;
+        font-weight: 600;
     }
 
-    div.stButton > button:hover {
-        background: #9b6a48 !important;
-        color: white !important;
+    [data-testid="stSidebar"] {
+        display: none;
     }
+</style>
+""", unsafe_allow_html=True)
 
-    /* -----------------------------------------
-       MOBILE
-    ----------------------------------------- */
-
-    @media (max-width: 800px) {
-
-        .nav-links {
-            display: none;
-        }
-
-        .navbar {
-            padding: 18px 6%;
-        }
-
-        .hero {
-            min-height: 650px;
-            padding: 60px 7%;
-            margin-bottom: 60px;
-        }
-
-        .hero-title {
-            font-size: 58px;
-        }
-
-        .hero-description {
-            font-size: 16px;
-        }
-
-        .section {
-            padding-left: 6%;
-            padding-right: 6%;
-            padding-bottom: 65px;
-        }
-
-        .menu-box {
-            margin-left: 4%;
-            margin-right: 4%;
-            padding: 27px;
-            margin-bottom: 65px;
-        }
-
-        .dark-section {
-            margin-left: 4%;
-            margin-right: 4%;
-            padding: 35px;
-            margin-bottom: 65px;
-        }
-
-        .contact-section {
-            margin-left: 4%;
-            margin-right: 4%;
-            padding: 35px;
-            margin-bottom: 65px;
-        }
-
-        .menu-item {
-            gap: 10px;
-        }
-
-        .menu-name {
-            font-size: 15px;
-        }
-
-        .menu-description {
-            font-size: 13px;
-        }
-
-        .menu-price {
-            font-size: 14px;
-        }
-    }
-
-    </style>
-    """,
-    unsafe_allow_html=True,
-)
 
 # ============================================================
-# NAVIGATION
+# TOP NAV
 # ============================================================
 
-st.markdown(
-    """
-    <div class="navbar">
-        <div class="brand">
-            Miss <span>Marie</span> Café
-        </div>
+top_left, top_middle, top_right = st.columns([2, 4, 2])
 
-        <div class="nav-links">
-            <a href="#about">About</a>
-            <a href="#menu">Menu</a>
-            <a href="#gallery">Gallery</a>
-            <a href="#visit">Visit</a>
-            <a href="#contact">Contact</a>
-        </div>
-    </div>
-    """,
-    unsafe_allow_html=True,
-)
+with top_left:
+    st.markdown("## Miss Marie")
+
+with top_middle:
+    st.markdown(
+        "<div style='text-align:center; padding-top:12px;'>"
+        "Rosanna Village · Melbourne"
+        "</div>",
+        unsafe_allow_html=True
+    )
+
+with top_right:
+    st.markdown(
+        "<div style='text-align:right; padding-top:12px;'>"
+        "☕ Breakfast · Lunch · Cakes"
+        "</div>",
+        unsafe_allow_html=True
+    )
+
+st.divider()
+
 
 # ============================================================
 # HERO
 # ============================================================
 
-st.markdown(
-    """
-    <div class="hero">
+hero_left, hero_right = st.columns([1.1, 1], gap="large")
 
-        <div class="hero-content">
+with hero_left:
 
-            <div class="eyebrow">
-                Rosanna Village · Melbourne
-            </div>
+    st.markdown(
+        '<div class="small-label">Rosanna Village</div>',
+        unsafe_allow_html=True
+    )
 
-            <div class="hero-title">
-                Creative food.<br>
-                Good coffee.<br>
-                Miss Marie.
-            </div>
+    st.title("Creative food.\nGood coffee.\nMiss Marie.")
 
-            <div class="hero-description">
-                Creative breakfast and lunch dishes, housemade
-                cakes and great coffee, served in the heart of
-                Rosanna Village.
-            </div>
-
-            <div class="hero-buttons">
-
-                <a class="hero-button hero-button-primary"
-                   href="#menu">
-                    Explore the menu
-                </a>
-
-                <a class="hero-button hero-button-secondary"
-                   href="tel:0394572365">
-                    Call the café
-                </a>
-
-            </div>
-
+    st.markdown(
+        """
+        <div class="hero-text">
+        Creative breakfast and lunch dishes, plus housemade
+        cakes, served in trendy, compact surroundings.
         </div>
+        """,
+        unsafe_allow_html=True
+    )
 
-    </div>
-    """,
-    unsafe_allow_html=True,
+    st.write("")
+
+    button1, button2 = st.columns(2)
+
+    with button1:
+        st.link_button(
+            "View Menu ↓",
+            "#menu",
+            use_container_width=True
+        )
+
+    with button2:
+        st.link_button(
+            "Call Café",
+            "tel:0394572365",
+            use_container_width=True
+        )
+
+with hero_right:
+
+    st.image(
+        "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=1200&q=85",
+        use_container_width=True
+    )
+
+
+st.write("")
+st.write("")
+
+
+# ============================================================
+# INTRO
+# ============================================================
+
+st.markdown(
+    '<div class="small-label">Welcome to Miss Marie</div>',
+    unsafe_allow_html=True
 )
 
-# ============================================================
-# ABOUT
-# ============================================================
+st.header("Your neighbourhood café in Rosanna.")
 
-st.markdown('<div id="about"></div>', unsafe_allow_html=True)
-
-st.markdown(
+st.write(
     """
-    <div class="section">
+    Miss Marie Café brings together creative breakfast and lunch,
+    quality coffee and housemade cakes in the heart of Rosanna Village.
 
-        <div class="section-eyebrow">
-            Welcome to Miss Marie
-        </div>
-
-        <div class="section-title">
-            Your neighbourhood<br>
-            café in Rosanna.
-        </div>
-
-        <div class="section-text">
-            Creative breakfast and lunch dishes, plus housemade
-            cakes, served in trendy, compact surroundings.
-            Whether you're grabbing a quick coffee, meeting
-            friends for brunch or settling in for lunch,
-            Miss Marie is a place to relax, eat well and enjoy
-            the neighbourhood.
-        </div>
-
-    </div>
-    """,
-    unsafe_allow_html=True,
+    Whether you're meeting friends, grabbing coffee or settling in
+    for lunch, there's something to make your visit worth coming back for.
+    """
 )
 
+
 # ============================================================
-# FEATURE CARDS
+# FEATURED FOOD
 # ============================================================
 
-col1, col2, col3 = st.columns(3, gap="large")
+st.write("")
+st.write("")
 
-with col1:
-    st.markdown(
-        """
-        <div class="card">
+food1, food2, food3 = st.columns(3, gap="large")
 
-            <img
-                class="card-image"
-                src="https://images.unsplash.com/photo-1533089860892-a7c6f0a88666?auto=format&fit=crop&w=1200&q=85"
-            >
-
-            <div class="card-content">
-
-                <div class="card-title">
-                    Breakfast
-                </div>
-
-                <div class="card-text">
-                    Creative breakfast favourites,
-                    fresh ingredients and dishes
-                    made for slow mornings.
-                </div>
-
-            </div>
-
-        </div>
-        """,
-        unsafe_allow_html=True,
+with food1:
+    st.image(
+        "https://images.unsplash.com/photo-1533089860892-a7c6f0a88666?auto=format&fit=crop&w=900&q=85",
+        use_container_width=True
+    )
+    st.subheader("Breakfast")
+    st.write(
+        "Creative breakfast favourites made for slow mornings."
     )
 
-with col2:
-    st.markdown(
-        """
-        <div class="card">
-
-            <img
-                class="card-image"
-                src="https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=1200&q=85"
-            >
-
-            <div class="card-content">
-
-                <div class="card-title">
-                    Lunch
-                </div>
-
-                <div class="card-text">
-                    Generous lunch dishes with
-                    plenty of fresh flavours and
-                    options for different tastes.
-                </div>
-
-            </div>
-
-        </div>
-        """,
-        unsafe_allow_html=True,
+with food2:
+    st.image(
+        "https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=900&q=85",
+        use_container_width=True
+    )
+    st.subheader("Lunch")
+    st.write(
+        "Fresh, generous lunch dishes packed with flavour."
     )
 
-with col3:
-    st.markdown(
-        """
-        <div class="card">
-
-            <img
-                class="card-image"
-                src="https://images.unsplash.com/photo-1578985545062-69928b1d9587?auto=format&fit=crop&w=1200&q=85"
-            >
-
-            <div class="card-content">
-
-                <div class="card-title">
-                    Housemade cakes
-                </div>
-
-                <div class="card-text">
-                    Finish your visit with something
-                    sweet from the cake cabinet.
-                    Selection changes regularly.
-                </div>
-
-            </div>
-
-        </div>
-        """,
-        unsafe_allow_html=True,
+with food3:
+    st.image(
+        "https://images.unsplash.com/photo-1578985545062-69928b1d9587?auto=format&fit=crop&w=900&q=85",
+        use_container_width=True
+    )
+    st.subheader("Housemade cakes")
+    st.write(
+        "Something sweet waiting in the cake cabinet."
     )
 
-# ============================================================
-# SPACING
-# ============================================================
-
-st.markdown("<br><br>", unsafe_allow_html=True)
 
 # ============================================================
 # MENU
 # ============================================================
 
-st.markdown('<div id="menu"></div>', unsafe_allow_html=True)
+st.write("")
+st.write("")
+st.divider()
+st.write("")
 
 st.markdown(
-    """
-    <div class="section">
-
-        <div class="section-eyebrow">
-            The menu
-        </div>
-
-        <div class="section-title">
-            Something for<br>
-            every appetite.
-        </div>
-
-        <div class="section-text">
-            A selection inspired by the café's published menu.
-            Menu items and prices can change, so please check
-            with Miss Marie for the latest availability.
-        </div>
-
-    </div>
-    """,
-    unsafe_allow_html=True,
+    '<div id="menu"></div>',
+    unsafe_allow_html=True
 )
 
-menu = [
+st.markdown(
+    '<div class="small-label">The Menu</div>',
+    unsafe_allow_html=True
+)
+
+st.header("Something for every appetite.")
+
+st.write(
+    "A selection inspired by Miss Marie's published menu. "
+    "Items and prices may change."
+)
+
+# ------------------------------------------------------------
+# BREAKFAST
+# ------------------------------------------------------------
+
+st.subheader("Breakfast")
+
+breakfast = [
     (
-        "Breakfast",
-        [
-            (
-                "Just 2 Free Range Eggs",
-                "Poached, scrambled or fried on sourdough or multigrain.",
-                "$11.90",
-            ),
-            (
-                "Sweetcorn Fritters",
-                "Smoked salmon, dill-caper sour cream, beetroot relish and poached egg.",
-                "$24.90",
-            ),
-            (
-                "Big Brekkie",
-                "Two eggs, bacon, tomato, spinach, mushrooms, chorizo, relish and sourdough toast.",
-                "$24.90",
-            ),
-            (
-                "Veg Brekkie",
-                "Summer greens, seasoned ricotta, poached egg, seeds, charred quinoa loaf and avocado.",
-                "$22.90",
-            ),
-            (
-                "Tofu Scramble",
-                "Vegan tofu scramble with greens, chilli and sourdough.",
-                "$22.90",
-            ),
-            (
-                "Strawberries & Cream Pancakes",
-                "A sweet breakfast favourite.",
-                "$22.90",
-            ),
-        ],
+        "Just 2 Free Range Eggs",
+        "Poached, scrambled or fried on sourdough or multigrain.",
+        "$11.90"
     ),
     (
-        "Lunch",
-        [
-            (
-                "Super Salad",
-                "Black quinoa, kale, charred corn, carrot, beetroot hummus, broccoli, nuts, poached egg, lime and chilli.",
-                "$17.90",
-            ),
-            (
-                "Super Salad + Chicken",
-                "Add poached chicken to the super salad.",
-                "+$5.00",
-            ),
-            (
-                "Weekly Special",
-                "Ask the team about the current special of the week.",
-                "Ask us",
-            ),
-        ],
+        "Sweetcorn Fritters",
+        "Smoked salmon, dill-caper sour cream, beetroot relish and poached egg.",
+        "$24.90"
     ),
     (
-        "Coffee & Drinks",
-        [
-            (
-                "Coffee",
-                "Freshly made coffee.",
-                "Ask us",
-            ),
-            (
-                "Fresh Juice",
-                "Ask the team about today's selection.",
-                "Ask us",
-            ),
-            (
-                "Tea",
-                "A selection of teas.",
-                "Ask us",
-            ),
-            (
-                "Cold Drinks",
-                "Ask the team about today's selection.",
-                "Ask us",
-            ),
-        ],
+        "Big Brekkie",
+        "Two eggs, bacon, tomato, spinach, mushrooms, chorizo, relish and sourdough toast.",
+        "$24.90"
     ),
     (
-        "Sweet Things",
-        [
-            (
-                "Housemade Cakes",
-                "Daily selection from the cake cabinet.",
-                "Ask us",
-            ),
-            (
-                "Sweet Treats",
-                "Selection changes regularly.",
-                "Ask us",
-            ),
-        ],
+        "Veg Brekkie",
+        "Summer greens, seasoned ricotta, poached egg, seeds, charred quinoa loaf and avocado.",
+        "$22.90"
     ),
+    (
+        "Tofu Scramble",
+        "Vegan tofu scramble with greens, chilli and sourdough.",
+        "$22.90"
+    ),
+    (
+        "Strawberries & Cream Pancakes",
+        "A sweet breakfast favourite.",
+        "$22.90"
+    )
 ]
 
-st.markdown('<div class="menu-box">', unsafe_allow_html=True)
+for name, description, price in breakfast:
 
-for category, items in menu:
+    left, right = st.columns([5, 1])
 
-    st.markdown(
-        f'<div class="menu-heading">{category}</div>',
-        unsafe_allow_html=True,
-    )
+    with left:
+        st.write("**" + name + "**")
+        st.caption(description)
 
-    for name, description, price in items:
-
+    with right:
         st.markdown(
-            f"""
-            <div class="menu-item">
-
-                <div>
-                    <div class="menu-name">
-                        {name}
-                    </div>
-
-                    <div class="menu-description">
-                        {description}
-                    </div>
-                </div>
-
-                <div class="menu-price">
-                    {price}
-                </div>
-
-            </div>
-            """,
-            unsafe_allow_html=True,
+            f"<div class='price'>{price}</div>",
+            unsafe_allow_html=True
         )
 
-st.markdown("</div>", unsafe_allow_html=True)
+
+# ------------------------------------------------------------
+# LUNCH
+# ------------------------------------------------------------
+
+st.subheader("Lunch")
+
+lunch = [
+    (
+        "Super Salad",
+        "Black quinoa, kale, charred corn, carrot, beetroot hummus, broccoli, nuts, poached egg, lime and chilli.",
+        "$17.90"
+    ),
+    (
+        "Super Salad + Chicken",
+        "Add poached chicken to the super salad.",
+        "+$5.00"
+    ),
+    (
+        "Weekly Special",
+        "Ask the team about the current special.",
+        "Ask us"
+    )
+]
+
+for name, description, price in lunch:
+
+    left, right = st.columns([5, 1])
+
+    with left:
+        st.write("**" + name + "**")
+        st.caption(description)
+
+    with right:
+        st.markdown(
+            f"<div class='price'>{price}</div>",
+            unsafe_allow_html=True
+        )
+
+
+# ------------------------------------------------------------
+# DRINKS
+# ------------------------------------------------------------
+
+st.subheader("Coffee & Drinks")
+
+drinks = [
+    ("Coffee", "Freshly made coffee.", "Ask us"),
+    ("Fresh Juice", "Ask about today's selection.", "Ask us"),
+    ("Tea", "A selection of teas.", "Ask us"),
+    ("Cold Drinks", "Ask the team about today's selection.", "Ask us")
+]
+
+for name, description, price in drinks:
+
+    left, right = st.columns([5, 1])
+
+    with left:
+        st.write("**" + name + "**")
+        st.caption(description)
+
+    with right:
+        st.markdown(
+            f"<div class='price'>{price}</div>",
+            unsafe_allow_html=True
+        )
+
+
+# ------------------------------------------------------------
+# SWEETS
+# ------------------------------------------------------------
+
+st.subheader("Sweet Things")
+
+sweets = [
+    ("Housemade Cakes", "Daily selection from the cake cabinet.", "Ask us"),
+    ("Sweet Treats", "Selection changes regularly.", "Ask us")
+]
+
+for name, description, price in sweets:
+
+    left, right = st.columns([5, 1])
+
+    with left:
+        st.write("**" + name + "**")
+        st.caption(description)
+
+    with right:
+        st.markdown(
+            f"<div class='price'>{price}</div>",
+            unsafe_allow_html=True
+        )
+
 
 # ============================================================
-# ABOUT / STORY
+# ABOUT
 # ============================================================
 
-st.markdown(
-    """
-    <div class="dark-section">
+st.write("")
+st.write("")
+st.divider()
+st.write("")
 
-        <div class="dark-eyebrow">
-            The Miss Marie feeling
-        </div>
+about_left, about_right = st.columns([1, 1], gap="large")
 
-        <div class="dark-title">
-            Come hungry.<br>
-            Leave happy.
-        </div>
+with about_left:
 
-        <div class="dark-text">
-            Miss Marie is a neighbourhood café in Rosanna Village
-            focused on creative food, quality coffee and a relaxed
-            atmosphere.
+    st.markdown(
+        '<div class="small-label">The Miss Marie feeling</div>',
+        unsafe_allow_html=True
+    )
 
-            <br><br>
+    st.header("Come hungry. Leave happy.")
 
-            From breakfast classics to weekly specials and
-            housemade cakes, there is always a reason to stop in.
-        </div>
+    st.write(
+        """
+        Miss Marie is a neighbourhood café in Rosanna Village,
+        bringing together good food, quality coffee and a relaxed
+        atmosphere.
 
-    </div>
-    """,
-    unsafe_allow_html=True,
-)
+        From breakfast classics to weekly specials and housemade
+        cakes, there's always a reason to stop in.
+        """
+    )
+
+with about_right:
+
+    st.image(
+        "https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&w=1200&q=85",
+        use_container_width=True
+    )
+
 
 # ============================================================
 # GALLERY
 # ============================================================
 
-st.markdown('<div id="gallery"></div>', unsafe_allow_html=True)
+st.write("")
+st.write("")
+st.divider()
+st.write("")
 
 st.markdown(
-    """
-    <div class="section">
-
-        <div class="section-eyebrow">
-            The café
-        </div>
-
-        <div class="section-title">
-            A little look<br>
-            inside Miss Marie.
-        </div>
-
-    </div>
-    """,
-    unsafe_allow_html=True,
+    '<div class="small-label">Inside the café</div>',
+    unsafe_allow_html=True
 )
 
-g1, g2 = st.columns(2, gap="large")
+st.header("Come see us.")
 
-with g1:
+gallery1, gallery2 = st.columns(2, gap="large")
+
+with gallery1:
     st.image(
-        "https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&w=1600&q=90",
-        use_container_width=True,
+        "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=1200&q=85",
+        use_container_width=True
     )
 
-with g2:
+with gallery2:
     st.image(
-        "https://images.unsplash.com/photo-1498804103079-a6351b050096?auto=format&fit=crop&w=1600&q=90",
-        use_container_width=True,
+        "https://images.unsplash.com/photo-1498804103079-a6351b050096?auto=format&fit=crop&w=1200&q=85",
+        use_container_width=True
     )
+
 
 # ============================================================
 # VISIT
 # ============================================================
 
-st.markdown("<br><br>", unsafe_allow_html=True)
-
-st.markdown('<div id="visit"></div>', unsafe_allow_html=True)
+st.write("")
+st.write("")
+st.divider()
+st.write("")
 
 st.markdown(
-    """
-    <div class="section">
-
-        <div class="section-eyebrow">
-            Find us
-        </div>
-
-        <div class="section-title">
-            Come by for breakfast,<br>
-            lunch or coffee.
-        </div>
-
-    </div>
-    """,
-    unsafe_allow_html=True,
+    '<div class="small-label">Find us</div>',
+    unsafe_allow_html=True
 )
+
+st.header("Come by for breakfast, lunch or coffee.")
 
 info1, info2, info3 = st.columns(3, gap="large")
 
 with info1:
+
     st.markdown(
         """
-        <div class="info-card">
+        <div class="info-box">
 
-            <div class="info-icon">📍</div>
+        ### 📍 Visit us
 
-            <div class="info-title">
-                Visit us
-            </div>
+        **45 Beetham Parade**
 
-            <div class="info-text">
-                45 Beetham Parade<br>
-                Rosanna VIC 3084
-                <br><br>
-
-                <a
-                    class="info-link"
-                    href="https://www.google.com/maps/search/?api=1&query=45+Beetham+Parade+Rosanna+VIC+3084"
-                    target="_blank"
-                >
-                    Get directions →
-                </a>
-            </div>
+        Rosanna VIC 3084
 
         </div>
         """,
-        unsafe_allow_html=True,
+        unsafe_allow_html=True
+    )
+
+    st.link_button(
+        "Get directions",
+        "https://www.google.com/maps/search/?api=1&query=45+Beetham+Parade+Rosanna+VIC+3084",
+        use_container_width=True
     )
 
 with info2:
+
     st.markdown(
         """
-        <div class="info-card">
+        <div class="info-box">
 
-            <div class="info-icon">🕐</div>
+        ### 🕐 Opening hours
 
-            <div class="info-title">
-                Opening hours
-            </div>
+        **Monday – Friday**
 
-            <div class="info-text">
-                Monday – Friday<br>
-                7:00am – 2:30pm
-                <br><br>
+        7:00am – 2:30pm
 
-                Saturday – Sunday<br>
-                8:00am – 2:30pm
-            </div>
+        **Saturday – Sunday**
+
+        8:00am – 2:30pm
 
         </div>
         """,
-        unsafe_allow_html=True,
+        unsafe_allow_html=True
     )
 
 with info3:
+
     st.markdown(
         """
-        <div class="info-card">
+        <div class="info-box">
 
-            <div class="info-icon">☎️</div>
+        ### ☎️ Call us
 
-            <div class="info-title">
-                Call us
-            </div>
+        Questions about the menu,
+        bookings or today's specials?
 
-            <div class="info-text">
-                Have a question about the menu,
-                bookings or today's specials?
-                <br><br>
-
-                <a
-                    class="info-link"
-                    href="tel:0394572365"
-                >
-                    (03) 9457 2365 →
-                </a>
-            </div>
+        **(03) 9457 2365**
 
         </div>
         """,
-        unsafe_allow_html=True,
+        unsafe_allow_html=True
     )
+
+    st.link_button(
+        "Call the café",
+        "tel:0394572365",
+        use_container_width=True
+    )
+
 
 # ============================================================
 # CONTACT
 # ============================================================
 
-st.markdown("<br>", unsafe_allow_html=True)
-
-st.markdown('<div id="contact"></div>', unsafe_allow_html=True)
+st.write("")
+st.write("")
+st.divider()
+st.write("")
 
 st.markdown(
-    """
-    <div class="contact-section">
-
-        <div class="section-eyebrow">
-            Get in touch
-        </div>
-
-        <div class="contact-title">
-            Planning a visit?
-        </div>
-
-        <div class="contact-text">
-            Have a question about the café, menu or a group visit?
-            Send us an enquiry below.
-        </div>
-
-    </div>
-    """,
-    unsafe_allow_html=True,
+    '<div class="small-label">Get in touch</div>',
+    unsafe_allow_html=True
 )
 
-with st.form("miss_marie_contact"):
+st.header("Planning a visit?")
 
-    left, right = st.columns(2)
+st.write(
+    "Have a question about the café, menu or a group visit?"
+)
 
-    with left:
-        name = st.text_input(
-            "Name",
-            placeholder="Your name",
-        )
+with st.form("contact_form"):
 
-    with right:
-        phone = st.text_input(
-            "Phone",
-            placeholder="04xx xxx xxx",
-        )
+    col1, col2 = st.columns(2)
 
-    email = st.text_input(
-        "Email",
-        placeholder="you@example.com",
-    )
+    with col1:
+        name = st.text_input("Name")
+
+    with col2:
+        phone = st.text_input("Phone")
+
+    email = st.text_input("Email")
 
     enquiry = st.selectbox(
-        "Enquiry type",
+        "Enquiry",
         [
             "General enquiry",
             "Table enquiry",
             "Group booking",
             "Catering",
-            "Cake enquiry",
-        ],
+            "Cake enquiry"
+        ]
     )
 
-    message = st.text_area(
-        "Message",
-        placeholder="How can we help?",
+    message = st.text_area("Message")
+
+    send = st.form_submit_button(
+        "Send enquiry",
+        use_container_width=True
     )
 
-    submitted = st.form_submit_button(
-        "Send enquiry"
-    )
-
-    if submitted:
+    if send:
 
         if not name or not email or not message:
 
-            st.error(
-                "Please fill in your name, email and message."
+            st.warning(
+                "Please complete your name, email and message."
             )
 
         else:
@@ -1147,64 +634,36 @@ with st.form("miss_marie_contact"):
                 "Thanks for getting in touch with Miss Marie Café!"
             )
 
+
 # ============================================================
-# FINAL CTA
+# FINAL
 # ============================================================
+
+st.write("")
+st.write("")
+st.divider()
+st.write("")
 
 st.markdown(
-    """
-    <div class="section">
-
-        <div style="
-            text-align:center;
-            padding:70px 20px;
-        ">
-
-            <div class="section-eyebrow">
-                Rosanna Village
-            </div>
-
-            <div class="section-title">
-                See you at<br>
-                Miss Marie.
-            </div>
-
-            <div class="section-text"
-                 style="margin:0 auto;">
-                45 Beetham Parade, Rosanna VIC 3084
-            </div>
-
-        </div>
-
-    </div>
-    """,
-    unsafe_allow_html=True,
+    '<div class="small-label">Rosanna Village</div>',
+    unsafe_allow_html=True
 )
 
-# ============================================================
-# FOOTER
-# ============================================================
+st.header("See you at Miss Marie.")
 
-st.markdown(
-    """
-    <div class="footer">
+st.write(
+    "45 Beetham Parade, Rosanna VIC 3084"
+)
 
-        <div class="footer-brand">
-            Miss Marie Café
-        </div>
+st.link_button(
+    "Call Miss Marie Café",
+    "tel:0394572365"
+)
 
-        <div class="footer-text">
-            Creative breakfast & lunch dishes,
-            housemade cakes and good coffee.
-            <br><br>
-            45 Beetham Parade, Rosanna VIC 3084
-            <br>
-            (03) 9457 2365
-            <br><br>
-            © 2026 Miss Marie Café
-        </div>
+st.write("")
+st.write("")
 
-    </div>
-    """,
-    unsafe_allow_html=True,
+st.caption(
+    "Miss Marie Café · 45 Beetham Parade, Rosanna VIC 3084 · "
+    "(03) 9457 2365"
 )
